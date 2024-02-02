@@ -8,7 +8,7 @@ void malloc_fail(char **lineptr, char *strdup)
 {
 	if (strdup != NULL)
 		free(strdup);
-	free(lineptr);
+	free(*lineptr);
 	fprintf(stderr, "Error: malloc failed\n");
 	exit(EXIT_FAILURE);
 }
@@ -27,6 +27,6 @@ line_no)
 	free(argv);
 	free(lineptr);
 
-	fprintf(stderr, "L%d: unknown instruction %s", line_no, argv[0]);
+	fprintf(stderr, "L%d: unknown instruction %s\n", line_no, argv[0]);
 	exit(EXIT_FAILURE);
 }

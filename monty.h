@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef MONTY_H
+#define MONTY_H
 #include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
@@ -43,10 +43,10 @@ typedef struct instruction_s
  */
 typedef struct carrier_s
 {
-	char *lineptr;
+	char *line_ptr;
 	FILE *file;
 	char **line_argv;
-	char *strdup;
+	char *str_dup;
 } carrier_t;
 
 extern carrier_t rack;
@@ -59,4 +59,4 @@ line_no);
 char **line_tokeniser(char *line);
 int token_count(char *s);
 void (*get_op(char *op))(stack_t **stack, unsigned int line_number);
-#endif /*MAIN_H*/
+#endif /*MONTY_H*/

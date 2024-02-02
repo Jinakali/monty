@@ -6,20 +6,20 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-	int n = atoi(rack.argv[1]);
+	int n = atoi(rack.line_argv[1]);
 	stack_t *new_node;
 
 	if (!n)
 	{
-		fprintf(stderr, "L%d: usage: push integer", line_number);
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
 	new_node = malloc(sizeof(stack_t));
 	if (new_node == NULL)
 	{
-		free(rack.argv);
-		malloc_failed(rack.line_ptr, rack.strdup);
+		free(rack.line_argv);
+		malloc_fail(&rack.line_ptr, rack.str_dup);
 	}
 
 	new_node->n = n;
@@ -40,7 +40,8 @@ void push(stack_t **stack, unsigned int line_number)
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-	stack *temp = *stack;
+	stack_t *temp = *stack;
+	(void) line_number;
 
 	if (*stack)
 	{

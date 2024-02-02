@@ -1,6 +1,7 @@
 #include "monty.h"
 #include <stdio.h>
-#include <strings.h>
+#include <stdlib.h>
+#include <unistd.h>
 /**
  * main - intepret monty files
  * @argc: argument count
@@ -11,10 +12,9 @@ int main(int argc, char **argv)
 {
 	FILE *monty_f;
 	stack_t *stackptr = NULL;
-	char *lineptr, line_dup = NULL;
+	char *lineptr, *line_dup = NULL, **op_argv;
 	size_t len = 0;
 	unsigned int line_no = 0;
-	carrier_t rack = {NULL, NULL, NULL, NULL};
 
 	if (argc != 2)
 	{
@@ -33,11 +33,11 @@ int main(int argc, char **argv)
 		line_no++;
 		line_dup = strdup(lineptr);
 		if (!line_dup)
-			malloc_fail(lineptr, NULL);
-		rack.line_dup = line_dup;
+			malloc_fail(&lineptr, NULL);
+		rack.str_dup = line_dup;
 
 		op_argv = line_tokeniser(line_dup);
-		rack.argv = op_argv;
+		rack.line_argv = op_argv;
 		if (get_op(op_argv[0]))
 			get_op(op_argv[0])(stackptr, line_no);
 		else
@@ -67,7 +67,7 @@ void (*get_op(char *op))(stack_t **stack, unsigned int line_number)
 
 	for (i = 0; op_parser[i].opcode; i++)
 	{
-		if (strcmp(op_parser[i].opcode, argv[0]) == 0)
+		if (strcmp(op_parser[i].opcode, op) == 0)
 		{
 			return (op_parser[i].f());
 		}
@@ -84,6 +84,7 @@ void (*get_op(char *op))(stack_t **stack, unsigned int line_number)
 char **line_tokeniser(char *line)
 {
 	char **words;
+	char *token;
 
 	int 2d_size;
 	int i;
